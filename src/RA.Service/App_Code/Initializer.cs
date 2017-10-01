@@ -6,12 +6,8 @@ using Core.Settings;
 using Core.Application;
 using Core.Logging;
 using Core.Exceptions;
-using Core.Logging.Sqlite;
-using RA.MainEntity;
-using RA.MenuEntity;
-using RA.CanvasEntity;
-using RA.CanvasGalleryPictureEntity;
-using RA.CanvasWYSIWYGEntity;
+using Core.Logging.MongoDB;
+using RA.RadonRepository;
 using Microsoft.Practices.Unity;
 
 
@@ -39,11 +35,8 @@ namespace RA.Service
                 InitCore(exceptionHandler);
 
                 //initialize custom repositories into singleton instances. Extend to use unity container.
-                HappyWorksService._mainRepo = new MainSqlRepository(_coreIdentity, _logWriter);
-                HappyWorksService._menuRepo = new MenuRepository(_coreIdentity, _logWriter);
-                HappyWorksService._canvasRepo = new CanvasSqlRepository(_coreIdentity, _logWriter);
-                HappyWorksService._cgpRepo = new CanvasGalleryPictureSqlRepository(_coreIdentity, _logWriter);
-                HappyWorksService._cwysiwygRepo = new CanvasWYSIWYGRepository(_coreIdentity, _logWriter);
+                RAService._radonRepo = new RadonRepository.RadonRepository(_coreIdentity, _logWriter);
+                
             }
             catch (Exception e)
             {
@@ -124,10 +117,10 @@ namespace RA.Service
 
             applicationLog.LogWriters.Add(_logWriter = new TextFileLogWriter(Path.Combine(appDataFolder, "coreLog.txt")));
 
-            SqliteLogRepository logRepository = new SqliteLogRepository(coreIdentity, applicationLog);
+            MongoDBLogRepository logRepository = new MongoDBLogRepository(coreIdentity, applicationLog);
             logRepository.Initialize();
 #if !DEBUG
-            applicationLog.LogWriters.Add(new SqliteLogWriter(logRepository));
+            applicationLog.LogWriters.Add(new MongoDBLogWriter(logRepository));
 #endif
 
             ApplicationLog.InitDefault(applicationLog);

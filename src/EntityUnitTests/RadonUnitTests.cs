@@ -4,8 +4,9 @@ using Core.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RA.MongoDB;
 using RA.Service;
+using RA.RadonRepository;
 
-namespace EntityUnitTests
+namespace RadonUnitTests
 {
 
     /// <summary>
@@ -14,7 +15,7 @@ namespace EntityUnitTests
     [TestClass]
     public class RadonTests : Initializer
     {
-        public static RARepository _mainRepo;
+        public static RadonRepository _mainRepo;
      
 
         public RadonTests()

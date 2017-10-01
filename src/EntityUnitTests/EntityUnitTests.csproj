@@ -60,11 +60,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CMSTests.cs" />
+    <Compile Include="RadonUnitTests.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\RA.RadonRepository\RA.RadonRepository.csproj">
+      <Project>{e49f7e1f-368a-48fb-8f6b-abb268752851}</Project>
+      <Name>RA.RadonRepository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core.Exceptions\Core.Exceptions.csproj">
       <Project>{9fbf5336-3a87-4fc3-b1fe-4fe6a0932b52}</Project>
       <Name>Core.Exceptions</Name>

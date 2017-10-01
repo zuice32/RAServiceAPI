@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="RA.Service.HappyWorksService" CodeBehind="RAService.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="RA.Service.RAService" CodeBehind="RAService.svc.cs" %>

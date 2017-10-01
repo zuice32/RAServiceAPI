@@ -6,7 +6,7 @@ Developed and programmed by TEAM F_SET
 */
 using System.Reflection;
 [assembly: AssemblyCompany("F_SET, Inc.")]
-[assembly: AssemblyProduct("Radon API")]
+[assembly: AssemblyProduct("Radon App API")]
 [assembly: AssemblyCopyright("Copyright © F_SET, Inc. 2017")]
 [assembly: AssemblyTrademark("")]
 

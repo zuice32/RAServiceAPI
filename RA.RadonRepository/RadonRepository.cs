@@ -6,33 +6,27 @@ using Core.MongoDB;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using MongoDB.Bson;
+using Core.Logging;
 
-namespace Core.Logging.MongoDB
+namespace RA.RadonRepository
 {
-    public class MongoDBLogRepository : MongoDBRepository<MongoDBLogRepository>, ILogRepository
+    public class RadonRepository : MongoDBRepository<RadonRepository>
     {
         private int _addOperationsCount;
         private readonly int _addOperationsPerTableTrim;
-        private readonly int _maxEntryCount;
-
-        public MongoDBLogRepository(ICoreIdentity coreIdentity, ILogWriter applicationLog)
-            : this(coreIdentity, applicationLog, 100000)
-        {
-        }
-
-        public MongoDBLogRepository(
+        private bool _enforceMaxSize = false;
+        
+        
+        public RadonRepository(
             ICoreIdentity coreIdentity,
-            ILogWriter applicationLog,
-            int maxEntryCount) : base(GetLogFileName(coreIdentity), applicationLog)
+            ILogWriter applicationLog) : base(GetLogFileName(coreIdentity), applicationLog)
         {
-            _maxEntryCount = maxEntryCount;
-
-            _addOperationsPerTableTrim = Math.Max(100, maxEntryCount/100);
+        
         }
 
         protected override string ClassName
         {
-            get { return "Core.Logging.MongoDB.MongoDBLogRepository"; }
+            get { return "RA.RadonRepository"; }
         }
 
         private static string GetLogFileName(ICoreIdentity coreIdentity)
@@ -40,57 +34,44 @@ namespace Core.Logging.MongoDB
             return Path.Combine(coreIdentity.PathToCoreDataDirectory, "main_" + coreIdentity.ID + ".log");
         }
 
-        protected virtual DeleteResult BuildTrimTableCommand()
-        {
-            var coll = base.Context.GetCollection<ILogEntry>("Logging");
-
-            var query =
-                coll.AsQueryable()
-                .OrderByDescending(e => e.Time)
-                .Select(e => e).Take(_maxEntryCount);
-
-
-            return coll.DeleteMany(query.ToBsonDocument());
-        }
-
         public void Initialize()
         {
             base.InitializeBase();
 
-            this.VerifyLogTable();
+            this.VerifyRadonCollection();
         }
 
-        public async void VerifyLogTable()
+        public async void VerifyRadonCollection()
         {
             bool logTableExists;
-            
+
             var filter = new BsonDocument("name", "Logging");
             var collectionCursor = await base.Context.ListCollectionsAsync(new ListCollectionsOptions { Filter = filter });
             logTableExists = await collectionCursor.AnyAsync();
 
             if (!logTableExists)
             {
-                this.CreateLogTable(base.Context);
+                this.CreateRadonCollection(base.Context);
             }
         }
 
-        private void CreateLogTable(IMongoDatabase dbConnection)
+        private void CreateRadonCollection(IMongoDatabase dbConnection)
         {
-            dbConnection.CreateCollection("Logging");
+            dbConnection.CreateCollection("RadonRecords");
         }
 
-        public void Add(ILogEntry entry)
+        public void Add(IRadonRecord entry)
         {
             base.CheckInitialized();
 
 
-            base.Context.GetCollection<ILogEntry>("Logging").InsertOne(entry);
+            base.Context.GetCollection<IRadonRecord>("RadonRecords").InsertOne(entry);
 
 
-            this.EnforceMaxLogSize();
+            if (_enforceMaxSize) EnforceMaxRadonSize();
         }
 
-        private void EnforceMaxLogSize()
+        private void EnforceMaxRadonSize()
         {
             _addOperationsCount++;
 
@@ -100,7 +81,7 @@ namespace Core.Logging.MongoDB
 
                 base.CheckInitialized();
 
-                DeleteResult result = BuildTrimTableCommand();
+                DeleteResult result = BuildTrimCommand();
 
                 int rowsTrimmed = (int)result.DeletedCount;
 
@@ -110,8 +91,21 @@ namespace Core.Logging.MongoDB
                         ClassName,
                         rowsTrimmed + " rows trimmed from Log table.",
                         DateTime.Now));
-                        
+
             }
+        }
+
+        protected virtual DeleteResult BuildTrimCommand()
+        {
+            var coll = base.Context.GetCollection<IRadonRecord>("RadonRecords");
+
+            var query =
+                coll.AsQueryable()
+                .OrderByDescending(e => e.radon_data_identifier)
+                .Select(e => e).Take(9999999);
+
+
+            return coll.DeleteMany(query.ToBsonDocument());
         }
     }
 }

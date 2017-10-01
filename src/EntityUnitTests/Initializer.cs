@@ -5,13 +5,9 @@ using Core.Application;
 using Core.Logging;
 using Core.Exceptions;
 using Core.Logging.MongoDB;
-using TA.MainEntity;
-using TA.MenuEntity;
-using TA.CanvasEntity;
-using TA.CanvasGalleryPictureEntity;
-using TA.CanvasWYSIWYGEntity;
+using RA.RadonRepository;
 
-namespace EntityUnitTests
+namespace RadonUnitTests
 {
     public abstract class Initializer
     {
