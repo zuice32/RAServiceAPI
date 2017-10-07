@@ -65,10 +65,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RA.RadonRepository\RA.RadonRepository.csproj">
-      <Project>{e49f7e1f-368a-48fb-8f6b-abb268752851}</Project>
-      <Name>RA.RadonRepository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core.Exceptions\Core.Exceptions.csproj">
       <Project>{9fbf5336-3a87-4fc3-b1fe-4fe6a0932b52}</Project>
       <Name>Core.Exceptions</Name>
@@ -92,6 +88,10 @@
     <ProjectReference Include="..\RA.MongoDB\RA.MongoDB.csproj">
       <Project>{a95e6f32-df0d-40f9-834f-95e303f5a88a}</Project>
       <Name>RA.MongoDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RA.RadonRepository\RA.RadonRepository.csproj">
+      <Project>{e49f7e1f-368a-48fb-8f6b-abb268752851}</Project>
+      <Name>RA.RadonRepository</Name>
     </ProjectReference>
     <ProjectReference Include="..\RA.Service\RA.Service.csproj">
       <Project>{153a0181-66fc-431c-8797-2f84fdfa3532}</Project>
