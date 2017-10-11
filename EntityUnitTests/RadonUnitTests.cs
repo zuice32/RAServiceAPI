@@ -3,7 +3,6 @@ using System.Linq;
 using Core.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RA.MongoDB;
-using RA.Service;
 using RA.RadonRepository;
 
 namespace RadonUnitTests
