@@ -1,11 +1,12 @@
 ﻿using System;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace RA.MongoDB
 {
-    public interface IEntity
+    public interface IEntity<Identity>
     {
-        Guid Id { get; set; }
+        Identity Id { get; set; }
 
         BsonDocument serializedInfo { get; set; }
     }

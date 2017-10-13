@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Core.Application;
 using Core.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RA.MongoDB;
@@ -34,6 +35,16 @@ namespace RadonUnitTests
 
         private TestContext testContextInstance;
 
+        [TestMethod]
+        public void DetermineIfRadonCollectionExists()
+        {
+            CoreIdentity coreIdentity = new CoreIdentity();
+            coreIdentity.PathToCoreDataDirectory = "";
+
+            RadonRepository repo = new RadonRepository(coreIdentity);
+            
+            database.GetCollection("blah").Exists()
+        }
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.

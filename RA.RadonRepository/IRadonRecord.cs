@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MongoDB.Bson.Serialization.Attributes;
+
 
 namespace RA.RadonRepository
 {
     public interface IRadonRecord
     {
+        [BsonId]
         string radon_data_identifier { get; set; }
 
         string state_code { get; set; }

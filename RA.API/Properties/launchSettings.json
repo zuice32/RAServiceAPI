@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RA.microservice": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

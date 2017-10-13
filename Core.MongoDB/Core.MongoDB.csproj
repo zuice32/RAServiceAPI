@@ -7,8 +7,8 @@
     <ProjectGuid>{74A7A143-4AE0-40EB-A454-DD5445BB6830}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Core.Sqlite</RootNamespace>
-    <AssemblyName>Core.Sqlite</AssemblyName>
+    <RootNamespace>Core.MongoDB</RootNamespace>
+    <AssemblyName>Core.MongoDB</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

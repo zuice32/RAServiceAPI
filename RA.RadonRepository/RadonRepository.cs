@@ -2,7 +2,7 @@
 using System.Data;
 using System.IO;
 using Core.Application;
-using Core.MongoDB;
+using RA.MongoDB;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using MongoDB.Bson;
@@ -10,18 +10,19 @@ using Core.Logging;
 
 namespace RA.RadonRepository
 {
-    public class RadonRepository : MongoDBRepository<RadonRepository>
+    public class RadonRepository : MongoRepository<RadonRepository>
     {
         private int _addOperationsCount;
         private readonly int _addOperationsPerTableTrim;
         private bool _enforceMaxSize = false;
+
         
-        
+
         public RadonRepository(
             ICoreIdentity coreIdentity,
             ILogWriter applicationLog) : base(GetLogFileName(coreIdentity), applicationLog)
         {
-        
+            //TODO
         }
 
         protected override string ClassName
@@ -43,13 +44,13 @@ namespace RA.RadonRepository
 
         public async void VerifyRadonCollection()
         {
-            bool logTableExists;
+            bool recordsExists;
 
-            var filter = new BsonDocument("name", "Logging");
+            var filter = new BsonDocument("name", "RadonRecords");
             var collectionCursor = await base.Context.ListCollectionsAsync(new ListCollectionsOptions { Filter = filter });
-            logTableExists = await collectionCursor.AnyAsync();
+            recordsExists = await collectionCursor.AnyAsync();
 
-            if (!logTableExists)
+            if (!recordsExists)
             {
                 this.CreateRadonCollection(base.Context);
             }

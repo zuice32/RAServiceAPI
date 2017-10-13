@@ -78,6 +78,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Device" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs">
@@ -122,6 +123,7 @@
     <Compile Include="Settings\ISettingsProvider.cs" />
     <Compile Include="Settings\Setting.cs" />
     <Compile Include="TypeExtensions\ByteArrayExtensions.cs" />
+    <Compile Include="TypeExtensions\color.cs" />
     <Compile Include="TypeExtensions\DateTimeExtensions.cs" />
     <Compile Include="TypeExtensions\DebugUtils.cs" />
     <Compile Include="TypeExtensions\IListExtensions.cs" />

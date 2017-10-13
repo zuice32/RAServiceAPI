@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RA.microservice.Model;
 
 namespace RA.Controllers
 {
@@ -11,14 +12,14 @@ namespace RA.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public object Get()
         {
-            return new string[] { "value1", "value2" };
+            return new RadonDO() { type = "radon", zip = "17101", average = 4, limitMin = 4, limitMax = 20 };
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{zip}")]
+        public string Get(string zip)
         {
             return "value";
         }

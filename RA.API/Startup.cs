@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RA.microservice.Model;
+
 
 namespace RA
 {
     public class Startup
     {
-        public const string AppS3BucketKey = "AppS3Bucket";
+        public const string AppS3BucketKey = "RAS3Bucket";
 
         public Startup(IHostingEnvironment env)
         {
@@ -31,6 +33,14 @@ namespace RA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            //configure mongoDB communication
+            services.Configure<Settings>(options =>
+            {
+                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+            });
+
 
             // Pull in any SDK configuration from Configuration object
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());

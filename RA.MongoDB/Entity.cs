@@ -3,9 +3,9 @@ using MongoDB.Bson;
 
 namespace RA.MongoDB
 {
-    public class Entity : IEntity
+    public class Entity : IEntity<string>
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public BsonDocument serializedInfo { get; set; }
     }
