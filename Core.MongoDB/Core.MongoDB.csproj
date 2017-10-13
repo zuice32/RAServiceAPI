@@ -84,7 +84,6 @@
     </Compile>
     <Compile Include="MongoDBRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MongoDBRepositoryTests.cs" />
     <Compile Include="TestMongoDBRepository.cs" />
   </ItemGroup>
   <ItemGroup>

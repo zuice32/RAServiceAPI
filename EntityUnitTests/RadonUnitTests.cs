@@ -38,12 +38,11 @@ namespace RadonUnitTests
         [TestMethod]
         public void DetermineIfRadonCollectionExists()
         {
-            CoreIdentity coreIdentity = new CoreIdentity();
-            coreIdentity.PathToCoreDataDirectory = "";
+            new NotImplementedException();
 
-            RadonRepository repo = new RadonRepository(coreIdentity);
-            
-            database.GetCollection("blah").Exists()
+            //RadonRepository repo = new RadonRepository(coreIdentity);
+
+            //database.GetCollection("blah").Exists();
         }
         /// <summary>
         ///Gets or sets the test context which provides

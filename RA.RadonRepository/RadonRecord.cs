@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RA.MongoDB;
 
 namespace RA.RadonRepository
 {
-    public class RadonRecord : IRadonRecord
+    public class RadonRecord : Entity, IRadonRecord 
     {
         public string radon_data_identifier { get; set; }
 

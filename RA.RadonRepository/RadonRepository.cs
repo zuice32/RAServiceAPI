@@ -10,25 +10,28 @@ using Core.Logging;
 
 namespace RA.RadonRepository
 {
-    public class RadonRepository : MongoRepository<RadonRepository>
+    public class RadonRepository : MongoRepository<RadonRecord, string>
     {
         private int _addOperationsCount;
         private readonly int _addOperationsPerTableTrim;
         private bool _enforceMaxSize = false;
 
-        
 
-        public RadonRepository(
-            ICoreIdentity coreIdentity,
-            ILogWriter applicationLog) : base(GetLogFileName(coreIdentity), applicationLog)
-        {
-            //TODO
-        }
+        public RadonRepository(ISetting setting) : base(setting)
+        { }
 
-        protected override string ClassName
-        {
-            get { return "RA.RadonRepository"; }
-        }
+
+        //public RadonRepository(
+        //    ICoreIdentity coreIdentity,
+        //    ILogWriter applicationLog) : base(GetLogFileName(coreIdentity), applicationLog)
+        //{
+        //    //TODO
+        //}
+
+        //protected override string ClassName
+        //{
+        //    get { return "RA.RadonRepository"; }
+        //}
 
         private static string GetLogFileName(ICoreIdentity coreIdentity)
         {
@@ -37,36 +40,36 @@ namespace RA.RadonRepository
 
         public void Initialize()
         {
-            base.InitializeBase();
+            //base.InitializeBase();
 
-            this.VerifyRadonCollection();
+            //this.VerifyRadonCollection();
         }
 
-        public async void VerifyRadonCollection()
-        {
-            bool recordsExists;
+        //public async void VerifyRadonCollection()
+        //{
+        //    bool recordsExists;
 
-            var filter = new BsonDocument("name", "RadonRecords");
-            var collectionCursor = await base.Context.ListCollectionsAsync(new ListCollectionsOptions { Filter = filter });
-            recordsExists = await collectionCursor.AnyAsync();
+        //    var filter = new BsonDocument("name", "RadonRecords");
+        //    var collectionCursor = await base.ListCollectionsAsync(new ListCollectionsOptions { Filter = filter });
+        //    recordsExists = await collectionCursor.AnyAsync();
 
-            if (!recordsExists)
-            {
-                this.CreateRadonCollection(base.Context);
-            }
-        }
+        //    if (!recordsExists)
+        //    {
+        //        this.CreateRadonCollection(base.Context);
+        //    }
+        //}
 
         private void CreateRadonCollection(IMongoDatabase dbConnection)
         {
             dbConnection.CreateCollection("RadonRecords");
         }
 
-        public void Add(IRadonRecord entry)
+        public void Add(RadonRecord entry)
         {
-            base.CheckInitialized();
+            //base.CheckInitialized();
 
 
-            base.Context.GetCollection<IRadonRecord>("RadonRecords").InsertOne(entry);
+            base.Save(entry);
 
 
             if (_enforceMaxSize) EnforceMaxRadonSize();
@@ -80,33 +83,33 @@ namespace RA.RadonRepository
             {
                 _addOperationsCount = 0;
 
-                base.CheckInitialized();
+                //base.CheckInitialized();
 
-                DeleteResult result = BuildTrimCommand();
+                //DeleteResult result = BuildTrimCommand();
 
-                int rowsTrimmed = (int)result.DeletedCount;
+                //int rowsTrimmed = (int)result.DeletedCount;
 
-                base.ApplicationLog.AddEntry(
-                    new LogEntry(
-                        MessageLevel.Verbose,
-                        ClassName,
-                        rowsTrimmed + " rows trimmed from Log table.",
-                        DateTime.Now));
+                //base.ApplicationLog.AddEntry(
+                //    new LogEntry(
+                //        MessageLevel.Verbose,
+                //        ClassName,
+                //        rowsTrimmed + " rows trimmed from Log table.",
+                //        DateTime.Now));
 
             }
         }
 
-        protected virtual DeleteResult BuildTrimCommand()
-        {
-            var coll = base.Context.GetCollection<IRadonRecord>("RadonRecords");
+        //protected virtual DeleteResult BuildTrimCommand()
+        //{
+        //    var coll = base.Context.GetCollection<IRadonRecord>("RadonRecords");
 
-            var query =
-                coll.AsQueryable()
-                .OrderByDescending(e => e.radon_data_identifier)
-                .Select(e => e).Take(9999999);
+        //    var query =
+        //        coll.AsQueryable()
+        //        .OrderByDescending(e => e.radon_data_identifier)
+        //        .Select(e => e).Take(9999999);
 
 
-            return coll.DeleteMany(query.ToBsonDocument());
-        }
+        //    return coll.DeleteMany(query.ToBsonDocument());
+        //}
     }
 }
