@@ -1,12 +1,13 @@
 ﻿using System;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace RA.MongoDB
-{
-    public class Entity : IEntity<string>
+{    
+    public abstract class Entity : IEntity
     {
-        public string Id { get; set; }
-
-        public BsonDocument serializedInfo { get; set; }
+        [BsonId(IdGenerator = typeof(CombGuidGenerator))]
+        public Guid Id { get; set; }
     }
 }

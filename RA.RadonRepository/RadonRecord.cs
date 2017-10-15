@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RA.MongoDB;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace RA.RadonRepository
 {
@@ -29,7 +30,7 @@ namespace RA.RadonRepository
 
         public string mitigation_system_indicator { get; set; }
 
-        public uint measure_value { get; set; }
+        public double measure_value { get; set; }
 
         public DateTime test_start_date { get; set; }
 

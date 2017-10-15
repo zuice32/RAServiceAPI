@@ -6,7 +6,6 @@ namespace RA.RadonRepository
 {
     public interface IRadonRecord
     {
-        [BsonId]
         string radon_data_identifier { get; set; }
 
         string state_code { get; set; }
@@ -27,7 +26,7 @@ namespace RA.RadonRepository
 
         string mitigation_system_indicator { get; set; }
 
-        uint measure_value { get; set; }
+        double measure_value { get; set; }
 
         DateTime test_start_date { get; set; }
 

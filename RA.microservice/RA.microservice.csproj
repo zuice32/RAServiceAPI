@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <OutputTypeEx>exe</OutputTypeEx>
+    <StartupObject></StartupObject>
+    <ApplicationIcon />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>  
+  
+  <ItemGroup>
+
+
+    <PackageReference Include="AWSSDK.S3" Version="3.3.5.13" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.0.3" />
+
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.0.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.1.0" />
+    <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="0.10.1-preview1" />
+    <PackageReference Include="Amazon.Lambda.Logging.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="1.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RA.DALAccess\RA.DALAccess.csproj" />
+    <ProjectReference Include="..\RA.MongoDB\RA.MongoDB.csproj" />
+    <ProjectReference Include="..\RA.RadonRepository\RA.RadonRepository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\..\source\repos\RAServiceAPI\packages\MongoDB.Bson.2.4.4\lib\netstandard1.5\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\..\source\repos\RAServiceAPI\packages\MongoDB.Driver.2.4.4\lib\netstandard1.5\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core">
+      <HintPath>..\..\..\..\source\repos\RAServiceAPI\packages\MongoDB.Driver.Core.2.4.4\lib\netstandard1.5\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

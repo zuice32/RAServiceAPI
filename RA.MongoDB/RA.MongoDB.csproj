@@ -78,10 +78,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Entity.cs" />
-    <Compile Include="ISetting.cs" />
-    <Compile Include="MongoRepository.cs" />
     <Compile Include="IEntity.cs" />
-    <Compile Include="IMongoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

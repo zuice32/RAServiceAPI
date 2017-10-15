@@ -52,6 +52,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="RadonIntegrationTests.cs" />
     <Compile Include="RadonUnitTests.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +77,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{f2e934f3-a7fa-40d2-ab9c-c8931811a4b6}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RA.DALAccess\RA.DALAccess.csproj">
+      <Project>{d6fd5403-fbf6-4b8e-8e64-2561375251cd}</Project>
+      <Name>RA.DALAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\RA.MongoDB\RA.MongoDB.csproj">
       <Project>{a95e6f32-df0d-40f9-834f-95e303f5a88a}</Project>

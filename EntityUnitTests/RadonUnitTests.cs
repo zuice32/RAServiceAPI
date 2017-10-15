@@ -15,7 +15,7 @@ namespace RadonUnitTests
     [TestClass]
     public class RadonTests : Initializer
     {
-        public static RadonRepository _mainRepo;
+        //public static RadonRepo _mainRepo;
      
 
         public RadonTests()
