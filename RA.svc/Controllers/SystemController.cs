@@ -29,13 +29,13 @@ namespace RA.microservice.Controllers
                 //if empty fill with data from site
                 if (!_radonRepo.GetAllRadonRecords().Any())
                 {
-                    using (Client client = new Client("http://data.pa.gov/resource/"))
+                    using (Client<RadonRecord> client = new Client<RadonRecord>("http://data.pa.gov/resource/"))
                     {
                         if (await client.CheckConnection())
                         {
                             //string json = await client.Get("x7jf-72k4.json?$limit=1000000");
-                            string json = await client.Get("7ypj-ezu6.json?$limit=2400000");
-                            List<RadonRecord> result = JsonConvert.DeserializeObject<List<RadonRecord>>(json);
+                            List<RadonRecord> result = client.Get("7ypj-ezu6.json?$limit=2400000").ToList();
+                            //JsonConvert.DeserializeObject<List<RadonRecord>>(json);
 
                             _radonRepo.SaveRadonRecords(result);
                             return "populated";

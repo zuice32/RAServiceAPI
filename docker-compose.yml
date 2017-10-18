@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  ra.svc:
+    image: ra.svc
+    build:
+      context: ./RA.svc
+      dockerfile: Dockerfile

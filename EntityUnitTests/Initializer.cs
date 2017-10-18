@@ -111,9 +111,7 @@ namespace RadonUnitTests
 
             MongoDBLogRepository logRepository = new MongoDBLogRepository(coreIdentity, applicationLog);
             logRepository.Initialize();
-#if !DEBUG
-            applicationLog.LogWriters.Add(new SqliteLogWriter(logRepository));
-#endif
+
 
             ApplicationLog.InitDefault(applicationLog);
         }

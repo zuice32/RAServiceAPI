@@ -5,10 +5,11 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace RA.DALAccess
 {
-    public class Client : IClient, IDisposable
+    public class Client<T> : IClient<T>, IDisposable where T : class
     {
         public Client(string url)
         {
@@ -24,31 +25,25 @@ namespace RA.DALAccess
         public string response { get; set; }
         
 
-        public async Task<string> Get(string action)
+        public IEnumerable<T> Get(string action)
         {
+            var serializer = new JsonSerializer();
+            var client = new HttpClient();
+            var header = new MediaTypeWithQualityHeaderValue("application/json");
+            client.BaseAddress = new Uri(url);
+            client.DefaultRequestHeaders.Accept.Add(header);
 
-            using (var client = new HttpClient())
+            // Note: port number might vary.
+            using (var stream = client.GetStreamAsync(action).Result)
+            using (var sr = new StreamReader(stream))
+            using (var jr = new JsonTextReader(sr))
             {
-                //Passing service base url  
-                client.BaseAddress = new Uri(url);
-
-                client.DefaultRequestHeaders.Clear();
-                //Define request data format  
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                
-                HttpResponseMessage Res = await client.GetAsync(action);
-
-                //Checking the response is successful or not which is sent using HttpClient  
-                if (Res.IsSuccessStatusCode)
+                while (jr.Read())
                 {
-                    //Storing the response details recieved from web api   
-                    return Res.Content.ReadAsStringAsync().Result;
+                    if (jr.TokenType != JsonToken.StartArray && jr.TokenType != JsonToken.EndArray)
+                        yield return serializer.Deserialize<T>(jr);
                 }
-            }
-
-            //else return null
-            return null;
+            }            
         }
 
         public async Task<bool> CheckConnection()

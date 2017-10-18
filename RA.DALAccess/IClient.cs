@@ -1,16 +1,11 @@
-﻿using System;
-using System.Net;
-using System.IO;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace RA.DALAccess
 {
-    public interface IClient
+    public interface IClient<T>
     {
-        Task<string> Get(string action);
+        IEnumerable<T> Get(string action);
 
         Task<bool> CheckConnection();
 
