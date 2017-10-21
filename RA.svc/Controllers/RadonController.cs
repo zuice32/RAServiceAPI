@@ -9,6 +9,9 @@ using RA.microservice.Infrastructure;
 using System.Collections;
 using RA.DALAccess;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net;
+using System.Web;
 
 namespace RA.Controllers
 {
@@ -23,31 +26,86 @@ namespace RA.Controllers
             _radonRepo = repo;
         }
 
+        private readonly string _url = "http://data.pa.gov/resource/";
+
         // GET api/values
         [NoCache]
         [HttpGet]
         public object Get()
         {
-            return new RAappDO() { type = "radon", zip = "17101", average = 4, limitMin = 4, limitMax = 20 };
+            return new RAappDO() { type = "radon", zip = "17101", average = 4 };
         }
 
         // GET api/values/5
         [NoCache]
-        [HttpGet("{zip}")]
-        public RAappDO Get(string zip)
+        [HttpGet("{zip}~{year}")]
+        public async Task<IActionResult> GetRadonAverageYear(string zip, int year)
         {
-            List<RadonRecord> coll = _radonRepo.GetAllRadonRecords().ToList().Where(rr => rr.address_postal_code == zip
-            && rr.test_start_date?.Year == DateTime.Now.Year && rr.test_end_date?.Year == DateTime.Now.Year ).ToList();
-
-            return new RAappDO()
+            //were getting bamboozled with requirements and mongodb isn't working as it does locally. Probably needs indexing/networking/config changes yadadadad.
+            //Grabbing records based on the queries designed beforehand and populating the list entities with them.
+            //List<RadonRecord> coll = _radonRepo.GetAllRadonRecords().ToList(); //.ToList().Where(rr => rr.address_postal_code == zip)
+            List<RadonRecord> coll = new List<RadonRecord>();
+            using (Client<RadonRecord> client = new Client<RadonRecord>(_url))
             {
-                type = "radon",
-                zip = zip,
-                numberOfTests = (uint)coll.Count(),
-                average = coll.Average(ra => ra.measure_value.HasValue ? (double)ra.measure_value : 0.0),
-                limitMin = 4,
-                limitMax = 20
-            };            
+                if (await client.CheckConnection())
+                {
+                    coll = client.Get("7ypj-ezu6.json?address_postal_code=" + zip).ToList();
+                }
+            }
+
+            coll = coll.Where(rr => rr.test_start_date.Year == year || rr.test_end_date.Year == year).ToList();
+            var avg = coll.Average(ra => ra.measure_value);
+
+            if (coll.Count() > 0)
+            {
+                var model = new RAappDO()
+                {
+                    type = "radon",
+                    zip = zip,
+                    numberOfTests = (uint)coll.Count(),
+                    average = (double)avg,
+                    maxYear = (uint)year,
+                    minYear = (uint)year
+                };
+
+                return Ok(model);
+                //HttpResponseMessage response = Response.CreateResponse(HttpStatusCode.OK, model);
+            }
+            else
+            {
+                return NotFound();
+                //return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+        }
+
+        [NoCache]
+        [HttpGet("{zip}")]
+        public async Task<IActionResult> GetRadonAverage(string zip)
+        {
+            List<RadonRecord> coll = new List<RadonRecord>();
+            using (Client<RadonRecord> client = new Client<RadonRecord>(_url))
+            {
+                if (await client.CheckConnection())
+                {
+                    coll = client.Get("7ypj-ezu6.json?address_postal_code=" + zip).ToList();
+                }
+            }
+
+            if (coll.Count() > 0)
+            {
+                return Ok(new RAappDO()
+                {
+                    type = "radon",
+                    zip = zip,
+                    numberOfTests = (uint)coll.Count(),
+                    average = (double)coll.Average(ra => ra.measure_value),
+
+                });
+            }
+            else {
+                return NotFound();
+            }
+
         }
 
         // POST api/values

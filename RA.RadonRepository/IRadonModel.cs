@@ -1,12 +1,20 @@
-﻿namespace RA.microservice.Model
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RA.RadonRepository
 {
-    interface IRAappDO
+    public interface IRadonModel
     {
         string type { get; set; }
 
         string zip { get; set; }
 
         double average { get; set; }
+
+        double median { get; set; }
 
         uint numberOfTests { get; set; }
 

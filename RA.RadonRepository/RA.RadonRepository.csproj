@@ -54,7 +54,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRadonModel.cs" />
     <Compile Include="IRadonRecord.cs" />
+    <Compile Include="RadonExtensions.cs" />
+    <Compile Include="RadonModel.cs" />
     <Compile Include="RadonRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

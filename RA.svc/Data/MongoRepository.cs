@@ -9,6 +9,7 @@ using MongoDB.Bson;
 using RA.microservice.Interface;
 using RA.microservice.Model;
 using Microsoft.Extensions.Options;
+using System.Linq.Expressions;
 
 namespace RA.MongoDB
 {
@@ -16,26 +17,28 @@ namespace RA.MongoDB
     {
         public IMongoDatabase database;
 
+        protected IMongoCollection<TEntity> _collection;
+
         public MongoRepository(IOptions<Settings> settings)
         {
 
             //for remote (mlab) connect requires a little more elbow greese
-            var credential = MongoCredential.CreateCredential(settings.Value.Database, settings.Value.username, settings.Value.pass);
+            //var credential = MongoCredential.CreateCredential(settings.Value.Database, settings.Value.username, settings.Value.pass);
 
-            var mongoClientSettings = new MongoClientSettings
-            {
-                Server = new MongoServerAddress(settings.Value.url, settings.Value.port),
-                Credentials = new List<MongoCredential> { credential }
-            };
-            var client = new MongoClient(mongoClientSettings);
-            if (client != null)
-                database = client.GetDatabase(settings.Value.Database);
+            //var mongoClientSettings = new MongoClientSettings
+            //{
+            //    Server = new MongoServerAddress(settings.Value.url, settings.Value.port),
+            //    Credentials = new List<MongoCredential> { credential }
+            //};
+            //var client = new MongoClient(mongoClientSettings);
+            //if (client != null)
+            //    database = client.GetDatabase(settings.Value.Database);
 
-#if Debug
+
             var client = new MongoClient(settings.Value.ConnectionString);
             if (client != null)
                 database = client.GetDatabase(settings.Value.Database);
-#endif
+
         }
 
         public TEntity Get(TIdentifier id)
@@ -45,7 +48,16 @@ namespace RA.MongoDB
 
         public IEnumerable<TEntity> GetAll()
         {
-            return this.database.GetCollection<TEntity>(typeof(TEntity).Name).Find(new BsonDocument()).ToListAsync().Result;
+            return this.database.GetCollection<TEntity>(typeof(TEntity).Name).AsQueryable();
+        }
+
+        public IMongoCollection<TEntity> Find(string collection)
+        {
+            // Return the enumerable of the collection
+            if (_collection==null) _collection = database.GetCollection<TEntity>(collection);
+
+            return _collection;
+            //return await _collection.Find<TEntity>(query).ToListAsync();
         }
 
 

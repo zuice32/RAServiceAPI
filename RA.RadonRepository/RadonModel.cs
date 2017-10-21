@@ -1,12 +1,20 @@
-﻿namespace RA.microservice.Model
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RA.RadonRepository
 {
-    public class RAappDO : IRAappDO
+    public class RadonModel : IRadonModel
     {
         public string type { get; set; }
 
         public string zip { get; set; }
 
         public double average { get; set; }
+
+        public double median { get; set; }
 
         public uint numberOfTests { get; set; }
 
@@ -23,5 +31,6 @@
         public uint maxYear { get; set; }
 
         public string averageColorHex { get; set; }
+        
     }
 }

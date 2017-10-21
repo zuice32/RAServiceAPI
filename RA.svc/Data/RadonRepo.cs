@@ -12,6 +12,8 @@ using Microsoft.Extensions.Options;
 using RA.microservice.Interface;
 using RA.microservice.Model;
 using MongoDB.Bson.Serialization;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace RA.RadonRepository
 {
@@ -72,6 +74,12 @@ namespace RA.RadonRepository
         public RadonRecord GetRadonRecord(string id)
         {
             return base.Get(id);
+        }
+
+        public List<RadonRecord> findRadon(Expression<Func<RadonRecord, bool>> query, string collection)
+        {
+            IMongoCollection<RadonRecord> coll = base.Find(collection);
+            return coll.AsQueryable().Where(query).ToList();
         }
 
         public IEnumerable<RadonRecord> GetAllRadonRecords()

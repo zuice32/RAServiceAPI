@@ -7,7 +7,7 @@ namespace RA.MongoDB
 {    
     public abstract class Entity : IEntity
     {
-        [BsonId(IdGenerator = typeof(CombGuidGenerator))]
-        public Guid Id { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
     }
 }

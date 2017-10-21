@@ -32,8 +32,8 @@ namespace RA.RadonRepository
 
         double? measure_value { get; set; }
 
-        DateTime? test_start_date { get; set; }
+        DateTime test_start_date { get; set; }
 
-        DateTime? test_end_date { get; set; }
+        DateTime test_end_date { get; set; }
     }
 }
