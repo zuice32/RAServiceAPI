@@ -6,26 +6,30 @@ using RA.MongoDB;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using MongoDB.Bson;
+using MongoDB;
 using Core.Logging;
 using System.Collections.Generic;
 using Microsoft.Extensions.Options;
-using RA.microservice.Interface;
-using RA.microservice.Model;
 using MongoDB.Bson.Serialization;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+
 namespace RA.RadonRepository
 {
-    public class RadonRepo : MongoRepository<RadonRecord, string>, IRadonRepo
+    public class RadonRepo : MongoRepository<RadonModel, string>, IRadonRepo
     {
         private int _addOperationsCount;
+
+        protected IMongoCollection<RadonModel> _collection;
+
         //private readonly int _addOperationsPerTableTrim;
         //private bool _enforceMaxSize = false;
 
-
         public RadonRepo(IOptions<Settings> setting) : base(setting)
-        { }
+        {
+            _collection = base.Collection;
+        }
 
 
         //public RadonRepository(
@@ -52,57 +56,48 @@ namespace RA.RadonRepository
             //this.VerifyRadonCollection();
         }
 
-        public async void VerifyRadonCollection()
-        {
-            bool recordsExists;
+        //public void VerifyRadonCollection()
+        //{
+        //    _collection = base.Collection;
+        //}
 
-            var filter = new BsonDocument("name", "Radon");
-            var collectionCursor = base.GetAll();
-            recordsExists = collectionCursor.Equals(null) ? false : true;
+        //private void CreateRadonCollection()
+        //{
+        //    base.database.CreateCollection("RadonModel");
+        //}
 
-            if (!recordsExists)
-            {
-                this.CreateRadonCollection(base.database);
-            }
-        }
-
-        private void CreateRadonCollection(IMongoDatabase dbConnection)
-        {
-            dbConnection.CreateCollection("Radon");
-        }
-
-        public RadonRecord GetRadonRecord(string id)
+        public RadonModel GetRadonRecord(string id)
         {
             return base.Get(id);
         }
 
-        public List<RadonRecord> findRadon(Expression<Func<RadonRecord, bool>> query, string collection)
+        public List<RadonModel> findRadon(Expression<Func<RadonModel, bool>> query, string collection)
         {
-            IMongoCollection<RadonRecord> coll = base.Find(collection);
+            IMongoCollection<RadonModel> coll = base.Find(collection);
             return coll.AsQueryable().Where(query).ToList();
         }
 
-        public IEnumerable<RadonRecord> GetAllRadonRecords()
+        public IEnumerable<RadonModel> GetAllRadonModel()
         {
             return base.GetAll();
         }
 
-        public RadonRecord SaveRadonRecord(RadonRecord entity)
+        public RadonModel SaveRadonModel(RadonModel entity)
         {
             return base.Save(entity);
         }
 
-        public IEnumerable<RadonRecord> SaveRadonRecords(List<RadonRecord> entities)
+        public IEnumerable<RadonModel> SaveRadonModels(List<RadonModel> entities)
         {
             return base.InsertCollection(entities);
         }
 
-        public void DeleteRadonRecord(string id)
+        public void DeleteRadonModel(string id)
         {
             base.Delete(id);
         }
 
-        public void DeleteRadonRecord(RadonRecord entity)
+        public void DeleteRadonModel(RadonModel entity)
         {
             base.Delete(entity);
         }

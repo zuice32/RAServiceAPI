@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RA.MongoDB;
+using Core.TypeExtensions;
+using System.Drawing;
 
 namespace RA.RadonRepository
 {
-    public class RadonModel : IRadonModel
+    public class RadonModel : Entity, IRadonModel
     {
         public string type { get; set; }
 
@@ -22,15 +20,15 @@ namespace RA.RadonRepository
 
         public uint limitMax { get { return 20; } }
 
-        public string minColorHex { get { return "#48fc3f"; } }
+        public string minColorRGB { get { return color.RGBConverter(Color.Green); } }
 
-        public string maxColorHex { get { return "#ff0000"; } }
+        public string maxColorRGB { get { return color.RGBConverter(Color.Red); } }
 
         public uint minYear { get; set; }
 
         public uint maxYear { get; set; }
 
-        public string averageColorHex { get; set; }
+        public string averageColorRGB { get; set; }
         
     }
 }

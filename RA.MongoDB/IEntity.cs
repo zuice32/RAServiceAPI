@@ -8,6 +8,6 @@ namespace RA.MongoDB
     public interface IEntity
     {
         [BsonId]
-        ObjectId Id { get; set; }
+        int Id { get; set; }
     }
 }

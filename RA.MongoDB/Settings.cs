@@ -1,7 +1,4 @@
-﻿using RA.MongoDB;
-using RA.microservice.Interface;
-
-namespace RA.microservice.Model
+﻿namespace RA.MongoDB
 {
     public class Settings : ISetting
     {

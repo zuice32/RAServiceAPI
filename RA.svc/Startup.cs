@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RA.microservice.Model;
+using RA.MongoDB;
 using RA.RadonRepository;
+using RA.WaterRepository;
 using System;
 
 namespace RA.svc
@@ -43,6 +44,7 @@ namespace RA.svc
             });
 
             services.AddTransient<IRadonRepo, RadonRepo>();
+            services.AddTransient<IWaterRepo, WaterRepo>();
             //services.AddSingleton<IRadonRepo, RadonRepo>();
 
             services.AddCors(options => {

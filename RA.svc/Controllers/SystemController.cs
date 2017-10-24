@@ -29,15 +29,15 @@ namespace RA.microservice.Controllers
                 //if empty fill with data from site
                 //if (!_radonRepo.GetAllRadonRecords().Any())
                 //{
-                    using (Client<RadonRecord> client = new Client<RadonRecord>("http://data.pa.gov/resource/"))
+                    using (Client<RadonModel> client = new Client<RadonModel>("http://data.pa.gov/resource/"))
                     {
                         if (await client.CheckConnection())
                         {
                             //string json = await client.Get("x7jf-72k4.json?$limit=1000000");
-                            List<RadonRecord> result = client.Get("7ypj-ezu6.json?$where=date_extract_y(test_start_date)>2011&$limit=100000&$offset=500000").ToList();
+                            List<RadonModel> result = client.Get("7ypj-ezu6.json?$where=date_extract_y(test_start_date)>2011&$limit=100000&$offset=500000").ToList();
                             //JsonConvert.DeserializeObject<List<RadonRecord>>(json);
 
-                            _radonRepo.SaveRadonRecords(result);
+                            _radonRepo.SaveRadonModels(result);
                             return "populated";
                         }
                     }

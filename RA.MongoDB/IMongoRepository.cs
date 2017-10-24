@@ -12,6 +12,8 @@ namespace RA.MongoDB
 
         T Save(T entity);
 
+        IEnumerable<T> InsertCollection(IEnumerable<T> entities);
+
         void Delete(I id);
         
         void Delete(T entity);

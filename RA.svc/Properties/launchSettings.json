@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/radon/17101",
+      "launchUrl": "api/water?latitude=40.8878&longitude=-80.334540&year=2016",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

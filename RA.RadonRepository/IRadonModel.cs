@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RA.RadonRepository
+﻿namespace RA.RadonRepository
 {
     public interface IRadonModel
     {
@@ -22,14 +16,14 @@ namespace RA.RadonRepository
 
         uint limitMax { get; }
 
-        string minColorHex { get; }
+        string minColorRGB { get; }
 
-        string maxColorHex { get; }
+        string maxColorRGB { get; }
 
         uint minYear { get; set; }
 
         uint maxYear { get; set; }
 
-        string averageColorHex { get; set; }
+        string averageColorRGB { get; set; }
     }
 }
