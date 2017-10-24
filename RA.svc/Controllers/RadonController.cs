@@ -58,7 +58,7 @@ namespace RA.Controllers
                     type = "radon",
                     zip = zip,
                     numberOfTests = (uint)coll.Count(),
-                    average = (double)avg,
+                    average = Math.Round((double)avg,2),
                     maxYear = (uint)yearEnd,
                     minYear = (uint)yearStart,
                     //averageColor
@@ -101,7 +101,7 @@ namespace RA.Controllers
                     type = "radon",
                     zip = zip,
                     numberOfTests = (uint)coll.Count(),
-                    average = (double)avg,
+                    average = Math.Round((double)avg, 2),
                     maxYear = (uint)year,
                     minYear = (uint)year,
                     //averageColor
@@ -137,8 +137,7 @@ namespace RA.Controllers
                     type = "radon",
                     zip = zip,
                     numberOfTests = (uint)coll.Count(),
-                    average = (double)coll.Average(ra => ra.measure_value),
-
+                    average = Math.Round((double)coll.Average(ra => ra.measure_value), 2),
                 };
                 _radonRepo.SaveRadonModel(model);
                 return Ok(model);
