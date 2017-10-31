@@ -29,7 +29,7 @@ namespace RA.RadonRepository
 
         public string mitigation_system_indicator { get; set; }
 
-        public double? measure_value { get; set; }
+        public double measure_value { get; set; }
 
         public DateTime test_start_date { get; set; }
 

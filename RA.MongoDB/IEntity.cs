@@ -7,7 +7,8 @@ namespace RA.MongoDB
 {
     public interface IEntity
     {
-        [BsonId]
-        int Id { get; set; }
+        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
+        [BsonIgnoreIfDefault]
+        string Id { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using RA.MongoDB;
 using Core.TypeExtensions;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace RA.RadonRepository
 {
@@ -12,6 +13,10 @@ namespace RA.RadonRepository
 
         public double average { get; set; }
 
+        public double minValue { get; set; }
+
+        public double maxValue { get; set; }
+
         public double median { get; set; }
 
         public uint numberOfTests { get; set; }
@@ -20,15 +25,17 @@ namespace RA.RadonRepository
 
         public uint limitMax { get { return 20; } }
 
-        public string minColorRGB { get { return color.RGBConverter(Color.Green); } }
+        public string minColorRGB { get { return color.RGBConverter(Color.Blue); } }
 
         public string maxColorRGB { get { return color.RGBConverter(Color.Red); } }
 
-        public uint minYear { get; set; }
-
-        public uint maxYear { get; set; }
+        public uint year { get; set; }
 
         public string averageColorRGB { get; set; }
         
+        public List<uint> year_data { get; set; }
+
+        public List<double> average_data { get; set; }
+
     }
 }

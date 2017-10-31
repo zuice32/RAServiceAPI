@@ -9,5 +9,8 @@ namespace RA.WaterRepository
         public string characteristic_name { get; set; }
         public uint count { get; set; }
         public double median { get; set; }
+        public double latitude { get; set; }
+        public double longitude { get; set; }
+        public string location_name { get; set; }
     }
 }

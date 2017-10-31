@@ -23,129 +23,75 @@ namespace RA.Controllers
         }
 
         private readonly string _url = "http://data.pa.gov/resource/7ypj-ezu6.json";
-
-        // GET api/values
-        [NoCache]
-        [HttpGet]
-        public object Get()
-        {
-            return new RadonModel() { };
-        }
-
-        [NoCache]
-        [HttpGet("{zip}~{yearStart}~{yearEnd}")]
-        public async Task<IActionResult> GetRadonAverageYearRange(string zip, int yearStart, int yearEnd)
-        {
-            //List<RadonRecord> coll = _radonRepo.GetAllRadonRecords().ToList(); //.ToList().Where(rr => rr.address_postal_code == zip)
-
-            List<RadonRecord> coll = new List<RadonRecord>();
-            using (Client<RadonRecord> client = new Client<RadonRecord>(_url))
-            {
-                if (await client.CheckConnection())
-                {
-                    coll = client.Get("?address_postal_code=" + zip).ToList();
-                }
-            }
-
-            coll = coll.Where(rr => (rr.test_start_date.Year >= yearStart || rr.test_start_date.Year <= yearEnd)
-            && (rr.test_end_date.Year >= yearStart || rr.test_end_date.Year <= yearEnd)).ToList();
-            var avg = coll.Average(ra => ra.measure_value);
-
-            if (coll.Count() > 0)
-            {
-                var model = new RadonModel()
-                {
-                    type = "radon",
-                    zip = zip,
-                    numberOfTests = (uint)coll.Count(),
-                    average = Math.Round((double)avg,2),
-                    maxYear = (uint)yearEnd,
-                    minYear = (uint)yearStart,
-                    //averageColor
-                };
-                //_radonRepo.SaveRadonModel(model);
-                return Ok(model);
-                //HttpResponseMessage response = Response.CreateResponse(HttpStatusCode.OK, model);
-            }
-            else
-            {
-                return NotFound(new { message = "Radon not found" });
-            }
-        }
+        
 
         // GET api/values/5
         [NoCache]
         [HttpGet("{zip}~{year}")]
         public async Task<IActionResult> GetRadonAverageYear(string zip, int year)
         {
-            //were getting bamboozled with requirements and mongodb isn't working as it does locally. Probably needs indexing/networking/config changes yadadadad.
-            //Grabbing records based on the queries designed beforehand and populating the list entities with them.
-            //List<RadonRecord> coll = _radonRepo.GetAllRadonRecords().ToList(); //.ToList().Where(rr => rr.address_postal_code == zip)
-            
-            List<RadonRecord> coll = new List<RadonRecord>();
-            using (Client<RadonRecord> client = new Client<RadonRecord>(_url))
+            RadonModel init = _radonRepo.GetAllRadonModel().AsQueryable().Where(rd => rd.year == year && rd.zip == zip).FirstOrDefault();
+            if (init != null)
             {
-                if (await client.CheckConnection())
-                {
-                    coll = client.Get("?address_postal_code=" + zip).ToList();
-                }
-            }
-
-            coll = coll.Where(rr => rr.test_start_date.Year == year || rr.test_end_date.Year == year).ToList();
-            var avg = coll.Average(ra => ra.measure_value);
-
-            if (coll.Count() > 0)
-            {
-                var model = new RadonModel()
-                {
-                    type = "radon",
-                    zip = zip,
-                    numberOfTests = (uint)coll.Count(),
-                    average = Math.Round((double)avg, 2),
-                    maxYear = (uint)year,
-                    minYear = (uint)year,
-                    //averageColor
-                };
-                
-                _radonRepo.SaveRadonModel(model);
-                return Ok(model);
-                //HttpResponseMessage response = Response.CreateResponse(HttpStatusCode.OK, model);
+                return Ok(init);
             }
             else
             {
-                return NotFound(new { message = "Radon not found" });
-            }
-        }
-
-        [NoCache]
-        [HttpGet("{zip}")]
-        public async Task<IActionResult> GetRadonAverage(string zip)
-        {
-            List<RadonRecord> coll = new List<RadonRecord>();
-            using (Client<RadonRecord> client = new Client<RadonRecord>(_url))
-            {
-                if (await client.CheckConnection())
+                List<RadonRecord> coll = new List<RadonRecord>();
+                using (Client<RadonRecord> client = new Client<RadonRecord>(_url))
                 {
-                    coll = client.Get("?address_postal_code=" + zip).ToList();
+                    if (await client.CheckConnection())
+                    {
+                        coll = client.Get("?address_postal_code=" + zip).ToList();
+                    }
+                }
+                
+                var curr = coll.Where(rr => rr.test_start_date.Year == year || rr.test_end_date.Year == year).ToList();
+
+                var avg = curr.Average(ra => ra.measure_value);
+                var min = curr.Min(ra => ra.measure_value);
+                var max = curr.Max(ra => ra.measure_value);
+
+                if (coll.Count() > 0)
+                {
+                    var model = new RadonModel()
+                    {
+                        type = "radon",
+                        zip = zip,
+                        minValue = min,
+                        maxValue = max,
+                        numberOfTests = (uint)curr.Count(),
+                        average = Math.Round(avg, 2),
+
+                        median = curr.OrderBy(ra => ra.measure_value)
+                        .ElementAt(curr.Count() / 2)
+                        .measure_value + curr.ElementAt((curr.Count() - 1) / 2)
+                        .measure_value,
+
+                        year = (uint)year,
+
+                        year_data = coll.Where(rr => rr.test_end_date.Year >= 1990)
+                        .GroupBy(rr => rr.test_end_date.Year)
+                        .Select(rr => (uint)rr.Key )
+                        .ToList(),
+
+                        average_data = coll.Where(rr => rr.test_end_date.Year >= 1990)
+                        .GroupBy(rr=> rr.test_end_date.Year)                        
+                        .Select(rr => 
+                            Math.Round(rr.Average(m => m.measure_value), 2)
+                        ).ToList()
+                        //averageColor
+                    };
+
+                    _radonRepo.SaveRadonModel(model);
+                    return Ok(model);
+                    //HttpResponseMessage response = Response.CreateResponse(HttpStatusCode.OK, model);
+                }
+                else
+                {
+                    return NotFound(new { message = "Radon not found" });
                 }
             }
-
-            if (coll.Count() > 0)
-            {
-                var model = new RadonModel()
-                {
-                    type = "radon",
-                    zip = zip,
-                    numberOfTests = (uint)coll.Count(),
-                    average = Math.Round((double)coll.Average(ra => ra.measure_value), 2),
-                };
-                _radonRepo.SaveRadonModel(model);
-                return Ok(model);
-            }
-            else {
-                return NotFound(new { message = "Radon not found" });
-            }
-
         }
 
 

@@ -7,9 +7,9 @@ namespace RA.WaterRepository
     public interface IWaterModel
     {        
         string type { get; set; }        
-        string characteristic { get; set; }
-        uint count { get; set; }
-        double median { get; set; }
+        List<WaterCharacteristic> characteristics { get; set; }
+        List<double> data { get; set; }
+        List<string> characteristic_data { get; set; }
         int year { get; set; }
     }
 }

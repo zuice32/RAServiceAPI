@@ -1,4 +1,6 @@
-﻿namespace RA.RadonRepository
+﻿using System.Collections.Generic;
+
+namespace RA.RadonRepository
 {
     public interface IRadonModel
     {
@@ -10,6 +12,10 @@
 
         double median { get; set; }
 
+        double minValue { get; set; }
+
+        double maxValue { get; set; }
+
         uint numberOfTests { get; set; }
 
         uint limitMin { get; }
@@ -20,10 +26,12 @@
 
         string maxColorRGB { get; }
 
-        uint minYear { get; set; }
-
-        uint maxYear { get; set; }
+        uint year { get; set; }
 
         string averageColorRGB { get; set; }
+
+        List<uint> year_data { get; set; }
+
+        List<double> average_data { get; set; }
     }
 }
