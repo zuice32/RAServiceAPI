@@ -17,11 +17,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RA.DALAccess", "RA.DALAcces
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RA.svc", "RA.svc\RA.svc.csproj", "{B6D4E72C-6BE9-4336-B9C5-9603519C74CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RA.WaterRepository", "RA.WaterRepository\RA.WaterRepository.csproj", "{97DD5154-05BC-4F32-80C0-6E0FACDAFC85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RA.WaterRepository", "RA.WaterRepository\RA.WaterRepository.csproj", "{97DD5154-05BC-4F32-80C0-6E0FACDAFC85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RA.MongoDB", "RA.MongoDB\RA.MongoDB.csproj", "{D60C3AB3-7B2E-4F96-AF4E-6C0F831F8497}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RA.MongoDB", "RA.MongoDB\RA.MongoDB.csproj", "{D60C3AB3-7B2E-4F96-AF4E-6C0F831F8497}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RA.RadonRepository", "RA.RadonRepository\RA.RadonRepository.csproj", "{7D567600-44D2-4BCC-B6D1-CE31F6ADC771}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RA.RadonRepository", "RA.RadonRepository\RA.RadonRepository.csproj", "{7D567600-44D2-4BCC-B6D1-CE31F6ADC771}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DE6A9A6B-7FB0-4819-998F-8FBDE099950C}"
+	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+		build.sh = build.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
