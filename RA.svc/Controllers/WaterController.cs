@@ -57,24 +57,147 @@ namespace RA.svc.Controllers
 
                     List<WaterCharacteristic> charLst = new List<WaterCharacteristic>();
 
-                    foreach (WaterRecord rec in coll)
+                    //TODO: hardcoding the custom ordering. Revisit later
+                    var recDis = coll.Where(cl => cl.characteristic_name == "Dissolved oxygen (DO)").FirstOrDefault();
+                    if (recDis != null)
                     {
                         charLst.Add(new WaterCharacteristic()
                         {
-                            characteristic = rec.characteristic_name,
-                            count = rec.count,
-                            //since the amount is calculated in ug/L we convert to mg/L
-                            median = rec.characteristic_name == "Iron" || rec.characteristic_name == "Manganese" ?
-                                Math.Round(rec.median * 0.001, 2) : Math.Round(rec.median, 2)
+                            characteristic = "Fishing: *dis oxy",
+                            count = recDis.count,
+                            median = Math.Round(recDis.median, 2)
                         });
                     }
+                    
+
+                    var recPh = coll.Where(cl => cl.characteristic_name == "pH").FirstOrDefault();
+                    if (recPh != null)
+                    {
+                        charLst.Add(new WaterCharacteristic()
+                        {
+                            characteristic = "Fishing: pH",
+                            count = recPh.count,
+                            median = Math.Round(recPh.median, 2)
+                        });
+                    }
+                    
+
+                    var recSol = coll.Where(cl => cl.characteristic_name == "Total suspended solids").FirstOrDefault();
+                    if (recSol != null)
+                    {
+                        charLst.Add(new WaterCharacteristic()
+                        {
+                            characteristic = "Swimming: Solids",
+                            count = recSol.count,
+                            median = Math.Round(recSol.median, 2)
+                        });
+                    }
+                    
+
+                    var recBac = coll.Where(cl => cl.characteristic_name == "Fecal Streptococcus Group Bacteria").FirstOrDefault();
+                    if (recBac!=null)
+                    {
+                        charLst.Add(new WaterCharacteristic()
+                        {
+                            characteristic = "Swimming: Bacteria",
+                            count = recBac.count,
+                            median = Math.Round(recBac.median, 2)
+                        });
+                    }
+
+                    
+
+                    var recNit = coll.Where(cl => cl.characteristic_name == "Nitrogen").FirstOrDefault();
+                    if (recNit != null)
+                    {
+                        charLst.Add(new WaterCharacteristic()
+                        {
+                            characteristic = "Farm Impact: Nitrogen",
+                            count = recNit.count,
+                            median = Math.Round(recNit.median, 2)
+                        });
+                    }
+                    
+
+                    var recPho = coll.Where(cl => cl.characteristic_name == "Phosphorus").FirstOrDefault();
+                    if (recPho != null)
+                    {
+                        charLst.Add(new WaterCharacteristic()
+                        {
+                            characteristic = "Farm Impact: Phosphorus",
+                            count = recPho.count,
+                            median = Math.Round(recPho.median, 2)
+                        });
+                    }
+                    
+
+                    var recIro = coll.Where(cl => cl.characteristic_name == "Iron").FirstOrDefault();
+                    if (recIro != null)
+                    {
+                        charLst.Add(new WaterCharacteristic()
+                        {
+                            characteristic = "Mining Impact: Iron",
+                            count = recIro.count,
+                            median = Math.Round(recIro.median * 0.001, 2)
+                        });
+                    }
+                    
+
+                    var recMang = coll.Where(cl => cl.characteristic_name == "Manganese").FirstOrDefault();
+                    if (recMang != null)
+                    {
+                        charLst.Add(new WaterCharacteristic()
+                        {
+                            characteristic = "Mining Impact: Manganese",
+                            count = recMang.count,
+                            median = Math.Round(recMang.median * 0.001, 2)
+                        });
+                    }
+                    
+
+                    var recSul = coll.Where(cl => cl.characteristic_name == "Sulfate").FirstOrDefault();
+                    if (recSul != null)
+                    {
+                        charLst.Add(new WaterCharacteristic()
+                        {
+                            characteristic = "Mining Impact: Sulfate",
+                            count = recSul.count,
+                            median = Math.Round(recSul.median, 2)
+                        });
+                    }
+                    
+
+                    var recSp = coll.Where(cl => cl.characteristic_name == "Specific conductance").FirstOrDefault();
+                    if (recSp != null)
+                    {
+                        charLst.Add(new WaterCharacteristic()
+                        {
+                            characteristic = "Urban Impact: Sp Conduct",
+                            count = recSp.count,
+                            median = Math.Round(recSp.median, 2)
+                        });
+                    }
+                    
+
+                    var recChl = coll.Where(cl => cl.characteristic_name == "Chloride").FirstOrDefault();
+                    if (recChl != null)
+                    {
+                        charLst.Add(new WaterCharacteristic()
+                        {
+                            characteristic = "Urban Impact: Chlorides",
+                            count = recChl.count,
+                            median = Math.Round(recChl.median, 2)
+                        });
+                    }
+                    
+
 
                     WaterModel model = new WaterModel()
                     {
                         type = "water",
                         characteristics = charLst,
-                        data = charLst.OrderBy(co => co.characteristic).Select(cl => cl.median).ToList(),
-                        characteristic_data = charLst.OrderBy(co => co.characteristic).Select(cl => cl.characteristic).ToList(),
+                        data = charLst.Select(cl => cl.median).ToList(),
+                        characteristic_data = charLst.Select(cl => cl.characteristic).ToList(),
                         year = year,
                         latitude = latitude,
                         longitude = longitude,
