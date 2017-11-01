@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RA.DALAccess\RA.DALAccess.csproj" />
     <ProjectReference Include="..\RA.MongoDB\RA.MongoDB.csproj" />
     <ProjectReference Include="..\RA.RadonRepository\RA.RadonRepository.csproj" />
     <ProjectReference Include="..\RA.WaterRepository\RA.WaterRepository.csproj" />
