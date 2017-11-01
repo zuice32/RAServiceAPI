@@ -1,7 +1,9 @@
-language: csharp
 dist: trusty
 sudo: required
+language: csharp
 mono: none
 dotnet: 2.0.0
+solution: RAServiceAPI/RA.APIBuild.sln
 script:
-  - build.sh --quiet verify
+  - dotnet restore
+  - dotnet build -c Release
