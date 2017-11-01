@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RA.RadonRepository;
 using RA.svc.Infrastructure;
-using System.Collections;
-using RA.DALAccess;
-using Newtonsoft.Json;
 
 namespace RA.Controllers
 {
@@ -37,55 +32,11 @@ namespace RA.Controllers
             }
             else
             {
-                List<RadonRecord> coll = new List<RadonRecord>();
-                using (Client<RadonRecord> client = new Client<RadonRecord>(_url))
-                {
-                    if (await client.CheckConnection())
-                    {
-                        coll = client.Get("?address_postal_code=" + zip).ToList();
-                    }
-                }
-                
-                var curr = coll.Where(rr => rr.test_start_date.Year == year || rr.test_end_date.Year == year).ToList();
+                init = await _radonRepo.createRadonModel(_url, zip, year);
 
-                var avg = curr.Average(ra => ra.measure_value);
-                var min = curr.Min(ra => ra.measure_value);
-                var max = curr.Max(ra => ra.measure_value);
-
-                if (coll.Count() > 0)
-                {
-                    var model = new RadonModel()
-                    {
-                        type = "radon",
-                        zip = zip,
-                        minValue = min,
-                        maxValue = max,
-                        numberOfTests = (uint)curr.Count(),
-                        average = Math.Round(avg, 2),
-
-                        median = curr.OrderBy(ra => ra.measure_value)
-                        .ElementAt(curr.Count() / 2)
-                        .measure_value + curr.ElementAt((curr.Count() - 1) / 2)
-                        .measure_value,
-
-                        year = (uint)year,
-
-                        year_data = coll.Where(rr => rr.test_end_date.Year >= 1990)
-                        .GroupBy(rr => rr.test_end_date.Year)
-                        .Select(rr => (uint)rr.Key )
-                        .ToList(),
-
-                        average_data = coll.Where(rr => rr.test_end_date.Year >= 1990)
-                        .GroupBy(rr=> rr.test_end_date.Year)                        
-                        .Select(rr => 
-                            Math.Round(rr.Average(m => m.measure_value), 2)
-                        ).ToList()
-                        //averageColor
-                    };
-
-                    _radonRepo.SaveRadonModel(model);
-                    return Ok(model);
-                    //HttpResponseMessage response = Response.CreateResponse(HttpStatusCode.OK, model);
+                if (init != null)
+                { 
+                    return Ok(init);                    
                 }
                 else
                 {

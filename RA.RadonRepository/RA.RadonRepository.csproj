@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\RA.DALAccess\RA.DALAccess.csproj" />
     <ProjectReference Include="..\RA.MongoDB\RA.MongoDB.csproj" />
   </ItemGroup>
 

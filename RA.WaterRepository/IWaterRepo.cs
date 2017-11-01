@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace RA.WaterRepository
 {
@@ -21,5 +22,7 @@ namespace RA.WaterRepository
         void DeleteWaterModel(string id);
 
         void DeleteWaterModel(WaterModel entity);
+
+        Task<WaterModel> createWaterModel(string url, double latitude, double longitude, int year);
     }
 }

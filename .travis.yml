@@ -3,7 +3,6 @@ sudo: required
 language: csharp
 mono: none
 dotnet: 2.0.0
-solution: RAServiceAPI/RA.APIBuild.sln
 script:
   - dotnet restore
   - dotnet build -c Release
