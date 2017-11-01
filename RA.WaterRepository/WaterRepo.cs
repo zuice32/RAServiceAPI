@@ -19,7 +19,6 @@ namespace RA.WaterRepository
 {
     public class WaterRepo : MongoRepository<WaterModel, string>, IWaterRepo
     {
-        private int _addOperationsCount;
 
         protected IMongoCollection<WaterModel> _collection;
 
