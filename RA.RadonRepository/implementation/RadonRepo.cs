@@ -170,7 +170,7 @@ namespace RA.RadonRepository
                 .GroupBy(rr => rr.test_end_date.Year)
                 .Select(rr => (uint)rr.Count())
                 .ToList(),
-                
+
                 average_data = coll.Where(rr => rr.test_end_date.Year >= 1990)
                 .GroupBy(rr => rr.test_end_date.Year)
                 .Select(rr =>
