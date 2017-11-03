@@ -3,6 +3,7 @@
     public interface IWaterRecord
     {
         string characteristic_name { get; set; }
+        string result_measure_unit_code { get; set; }
         uint count { get; set; }
         double median { get; set; }
         double latitude { get; set; }

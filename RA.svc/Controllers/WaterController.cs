@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RA.WaterRepository;
 using RA.svc.Infrastructure;
-using System.Collections;
-using RA.DALAccess;
-using Newtonsoft.Json;
 
 
 namespace RA.svc.Controllers
@@ -39,7 +33,7 @@ namespace RA.svc.Controllers
                 return Ok(init);
             }
             else {
-                init = await _waterRepo.createWaterModel(_url, latitude, longitude, year);
+                init = await _waterRepo.CreateWaterModel(_url, latitude, longitude, year);
 
                 if (init != null)
                 {

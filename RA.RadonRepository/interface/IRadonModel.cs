@@ -6,6 +6,8 @@ namespace RA.RadonRepository
     {
         string type { get; set; }
 
+        string uom { get; }
+
         string zip { get; set; }
 
         double average { get; set; }
@@ -30,8 +32,10 @@ namespace RA.RadonRepository
 
         string averageColorRGB { get; set; }
 
-        List<uint> year_data { get; set; }
+        IEnumerable<uint> year_data { get; set; }
 
-        List<double> average_data { get; set; }
+        IEnumerable<uint> count_data { get; set; }
+
+        IEnumerable<double> average_data { get; set; }
     }
 }

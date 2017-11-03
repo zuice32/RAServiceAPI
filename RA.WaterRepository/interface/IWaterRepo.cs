@@ -11,7 +11,7 @@ namespace RA.WaterRepository
 
         bool WaterModelsExist(Expression<Func<WaterModel, bool>> predicate);
 
-        List<WaterModel> findWaterModels(Expression<Func<WaterModel, bool>> query, string collection);
+        IEnumerable<WaterModel> findWaterModels(Expression<Func<WaterModel, bool>> query, string collection);
 
         IEnumerable<WaterModel> GetAllWaterModels();
 
@@ -23,6 +23,6 @@ namespace RA.WaterRepository
 
         void DeleteWaterModel(WaterModel entity);
 
-        Task<WaterModel> createWaterModel(string url, double latitude, double longitude, int year);
+        Task<WaterModel> CreateWaterModel(string url, double latitude, double longitude, int year);
     }
 }

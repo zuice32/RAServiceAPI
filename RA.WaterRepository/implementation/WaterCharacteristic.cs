@@ -9,5 +9,6 @@ namespace RA.WaterRepository
         public string characteristic { get; set; }
         public uint count { get; set; }
         public double median { get; set; }
+        public string uom { get; set; }
     }
 }

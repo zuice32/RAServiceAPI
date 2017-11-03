@@ -9,6 +9,8 @@ namespace RA.RadonRepository
     {
         public string type { get; set; }
 
+        public string uom { get { return "pCi/L"; } }
+
         public string zip { get; set; }
 
         public double average { get; set; }
@@ -25,7 +27,7 @@ namespace RA.RadonRepository
 
         public uint limitMax { get { return 20; } }
 
-        public string minColorRGB { get { return color.RGBConverter(Color.Blue); } }
+        public string minColorRGB { get { return color.RGBConverter(Color.Green); } }
 
         public string maxColorRGB { get { return color.RGBConverter(Color.Red); } }
 
@@ -33,9 +35,11 @@ namespace RA.RadonRepository
 
         public string averageColorRGB { get; set; }
         
-        public List<uint> year_data { get; set; }
+        public IEnumerable<uint> year_data { get; set; }
 
-        public List<double> average_data { get; set; }
+        public IEnumerable<uint> count_data { get; set; }
+
+        public IEnumerable<double> average_data { get; set; }
 
     }
 }

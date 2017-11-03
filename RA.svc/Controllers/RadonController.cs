@@ -17,6 +17,7 @@ namespace RA.Controllers
             _radonRepo = repo;
         }
 
+        //TODO: refactor
         private readonly string _url = "http://data.pa.gov/resource/7ypj-ezu6.json";
         
 

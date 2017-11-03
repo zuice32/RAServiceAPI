@@ -26,7 +26,7 @@ namespace RA.svc
 
         public static IConfigurationRoot Configuration { get; private set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container
+        // This method gets called by the runtime. Use this method to dependency inject services to the container
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -45,7 +45,6 @@ namespace RA.svc
 
             services.AddTransient<IRadonRepo, RadonRepo>();
             services.AddTransient<IWaterRepo, WaterRepo>();
-            //services.AddSingleton<IRadonRepo, RadonRepo>();
 
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
